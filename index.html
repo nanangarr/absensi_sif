@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Absensi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Form Absensi</h1>
+            <p>Silakan isi formulir absensi berikut dengan lengkap</p>
+        </div>
+
+        <div class="form-container">
+            <div class="info-box">
+                <strong>ℹ️ Info:</strong> Foto akan disimpan sebagai data dalam database (Base64). Untuk project
+                production, disarankan menggunakan Firebase Storage dengan Blaze Plan.
+            </div>
+
+            <div id="alert" class="alert"></div>
+
+            <form id="attendanceForm">
+                <div class="form-group">
+                    <label for="name">Nama Lengkap *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="institution">Instansi *</label>
+                    <input type="text" id="institution" name="institution" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Pilih Narasumber *</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="speaker1" name="speakers" value="Dr. Ahmad Suryadi">
+                            <label for="speaker1">Dr. Ahmad Suryadi</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="speaker2" name="speakers" value="Prof. Siti Nurjanah">
+                            <label for="speaker2">Prof. Siti Nurjanah</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="speaker3" name="speakers" value="Ir. Budi Santoso">
+                            <label for="speaker3">Ir. Budi Santoso</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="speaker4" name="speakers" value="Dr. Maya Indira">
+                            <label for="speaker4">Dr. Maya Indira</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="photo">Upload Foto *</label>
+                    <div class="file-upload">
+                        <input type="file" id="photo" name="photo" accept="image/*" required>
+                        <label for="photo" class="file-upload-label">
+                            📷 Klik untuk memilih foto atau drag & drop<br>
+                            <small>Max 1MB - JPG, PNG, GIF</small>
+                        </label>
+                    </div>
+                    <div id="filePreview" class="file-preview"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Lokasi Anda *</label>
+                    <div class="location-section">
+                        <button type="button" id="getLocationBtn" class="btn btn-secondary">
+                            📍 Dapatkan Lokasi
+                        </button>
+                        <div id="locationInfo" class="location-info"></div>
+                    </div>
+                </div>
+
+                <div class="submit-section">
+                    <button type="submit" id="submitBtn" class="btn btn-primary">
+                        ✅ Submit Absensi
+                    </button>
+                </div>
+            </form>
+
+            <div id="loading" class="loading">
+                <div class="loading-spinner"></div>
+                <p>Mengirim data...</p>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="script.js"></script>
+
+</body>
+
+</html>
