@@ -37,7 +37,7 @@ const alert = document.getElementById('alert');
 fileInput.addEventListener('change', function (e) {
     const file = e.target.files[0];
     if (file) {
-        if (file.size > 1024 * 1024) {
+        if (file.size > 10 * 1024 * 1024) {
             showAlert('error', 'Ukuran file terlalu besar! Maksimal 1MB');
             this.value = '';
             return;
