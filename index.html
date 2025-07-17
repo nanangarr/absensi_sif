@@ -17,8 +17,7 @@
 
         <div class="form-container">
             <div class="info-box">
-                <strong>ℹ️ Info:</strong> Foto akan disimpan sebagai data dalam database (Base64). Untuk project
-                production, disarankan menggunakan Firebase Storage dengan Blaze Plan.
+                <strong>ℹ️ Info:</strong> Form absensi tanpa upload foto. Semua data akan disimpan dalam database.
             </div>
 
             <div id="alert" class="alert"></div>
@@ -62,18 +61,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="photo">Upload Foto *</label>
-                    <div class="file-upload">
-                        <input type="file" id="photo" name="photo" accept="image/*" required>
-                        <label for="photo" class="file-upload-label">
-                            📷 Klik untuk memilih foto atau drag & drop<br>
-                            <small>Max 1MB - JPG, PNG, GIF</small>
-                        </label>
-                    </div>
-                    <div id="filePreview" class="file-preview"></div>
-                </div>
-
-                <div class="form-group">
                     <label>Lokasi Anda *</label>
                     <div class="location-section">
                         <button type="button" id="getLocationBtn" class="btn btn-secondary">
@@ -97,7 +84,6 @@
         </div>
     </div>
     <script type="module" src="script.js"></script>
-
 </body>
 
 </html>

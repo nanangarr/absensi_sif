@@ -1,9 +1,7 @@
-
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
 import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics.js';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
 
-// 🔧 Konfigurasi Firebase Anda
 const firebaseConfig = {
     apiKey: "AIzaSyCbhryt-zN8iElPNXqHdlS3-GFiCTlbxZ4",
     authDomain: "absensi-c9641.firebaseapp.com",
@@ -15,60 +13,19 @@ const firebaseConfig = {
     measurementId: "G-P78LFW8JEN"
 };
 
-// Inisialisasi Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
 let currentLocation = null;
-let photoBase64 = null;
-let photoInfo = null;
 
 const form = document.getElementById('attendanceForm');
 const getLocationBtn = document.getElementById('getLocationBtn');
 const locationInfo = document.getElementById('locationInfo');
-const fileInput = document.getElementById('photo');
-const filePreview = document.getElementById('filePreview');
 const submitBtn = document.getElementById('submitBtn');
 const loading = document.getElementById('loading');
 const alert = document.getElementById('alert');
 
-// Preview Foto
-fileInput.addEventListener('change', function (e) {
-    const file = e.target.files[0];
-    if (file) {
-        if (file.size > 10 * 1024 * 1024) {
-            showAlert('error', 'Ukuran file terlalu besar! Maksimal 1MB');
-            this.value = '';
-            return;
-        }
-
-        if (!file.type.startsWith('image/')) {
-            showAlert('error', 'File harus berupa gambar!');
-            this.value = '';
-            return;
-        }
-
-        photoInfo = {
-            name: file.name,
-            size: file.size,
-            type: file.type,
-            lastModified: file.lastModified
-        };
-
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            photoBase64 = e.target.result;
-            filePreview.innerHTML = `
-        <img src="${e.target.result}" alt="Preview">
-            <p>File: ${file.name} (${(file.size / 1024).toFixed(1)} KB)</p>
-            `;
-        };
-        reader.readAsDataURL(file);
-    }
-});
-
-// Fungsi untuk mendapatkan alamat dari koordinat menggunakan Nominatim
 async function getAddressFromCoords(lat, lon) {
     try {
         const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`, {
@@ -87,7 +44,6 @@ async function getAddressFromCoords(lat, lon) {
             const address = data.address;
             let formattedAddress = '';
 
-            // Susun alamat yang rapi
             if (address.house_number) formattedAddress += address.house_number + ' ';
             if (address.road) formattedAddress += address.road + ', ';
             if (address.neighbourhood) formattedAddress += address.neighbourhood + ', ';
@@ -98,7 +54,6 @@ async function getAddressFromCoords(lat, lon) {
             if (address.state) formattedAddress += address.state + ', ';
             if (address.country) formattedAddress += address.country;
 
-            // Hilangkan koma di akhir
             formattedAddress = formattedAddress.replace(/,\s*$/, '');
 
             return {
@@ -114,7 +69,6 @@ async function getAddressFromCoords(lat, lon) {
     }
 }
 
-// Ambil Lokasi
 getLocationBtn.addEventListener('click', function () {
     if (!navigator.geolocation) {
         showLocationError('Geolocation tidak didukung oleh browser ini');
@@ -132,10 +86,8 @@ getLocationBtn.addEventListener('click', function () {
                 accuracy: position.coords.accuracy,
             };
 
-            // Update button untuk menunjukkan sedang mendapatkan alamat
             getLocationBtn.textContent = '🔄 Mendapatkan alamat...';
 
-            // Dapatkan alamat dari koordinat
             const address = await getAddressFromCoords(
                 currentLocation.latitude,
                 currentLocation.longitude
@@ -144,7 +96,6 @@ getLocationBtn.addEventListener('click', function () {
             if (address) {
                 currentLocation.address = address;
             } else {
-                // Jika gagal mendapatkan alamat, tetap lanjutkan dengan koordinat saja
                 currentLocation.address = {
                     formatted: 'Alamat tidak dapat ditemukan',
                     details: null,
@@ -183,7 +134,6 @@ getLocationBtn.addEventListener('click', function () {
     );
 });
 
-// Submit Form
 form.addEventListener('submit', async function (e) {
     e.preventDefault();
 
@@ -193,11 +143,6 @@ form.addEventListener('submit', async function (e) {
 
     try {
         const formData = getFormData();
-
-        formData.photo = {
-            base64: photoBase64,
-            info: photoInfo
-        };
         formData.location = currentLocation;
         formData.timestamp = serverTimestamp();
         formData.submittedAt = new Date().toISOString();
@@ -231,11 +176,6 @@ function validateForm() {
         return false;
     }
 
-    if (!photoBase64) {
-        showAlert('error', 'Upload foto diperlukan');
-        return false;
-    }
-
     if (!currentLocation) {
         showAlert('error', 'Lokasi diperlukan');
         return false;
@@ -258,9 +198,6 @@ function getFormData() {
 
 function resetForm() {
     currentLocation = null;
-    photoBase64 = null;
-    photoInfo = null;
-    filePreview.innerHTML = '';
     locationInfo.innerHTML = '';
     getLocationBtn.textContent = '📍 Dapatkan Lokasi';
     getLocationBtn.disabled = false;

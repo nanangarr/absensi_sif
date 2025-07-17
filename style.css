@@ -111,44 +111,6 @@ select:focus {
     font-weight: 500;
 }
 
-.file-upload {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-}
-
-.file-upload input[type="file"] {
-    display: none;
-}
-
-.file-upload-label {
-    display: block;
-    padding: 15px;
-    border: 2px dashed #667eea;
-    border-radius: 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: #f8f9fa;
-}
-
-.file-upload-label:hover {
-    background: #e9ecef;
-    border-color: #5a6fd8;
-}
-
-.file-preview {
-    margin-top: 15px;
-    text-align: center;
-}
-
-.file-preview img {
-    max-width: 200px;
-    max-height: 200px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 .location-section {
     background: #f8f9fa;
     padding: 20px;
